@@ -1,0 +1,22 @@
+
+- name: oracle
+  src: https://github.com/klewan/ansible-role-oracle.git
+  scm: git
+  #version: develop
+  #version: feature/init
+  #version: master
+
+- name: oracle-gatherinfo-gi
+  src: https://github.com/klewan/ansible-role-oracle-gatherinfo-gi.git
+  scm: git
+  #version: develop
+  #version: feature/init
+  #version: master
+
+- name: oracle-asm-metadata
+  src: https://github.com/klewan/ansible-role-oracle-asm-metadata.git
+  scm: git
+  #version: develop
+  #version: feature/init
+  #version: master
+

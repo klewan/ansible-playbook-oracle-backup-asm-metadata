@@ -1,0 +1,34 @@
+---
+- name: Backup ASM metadata
+  hosts: ora-servers
+  gather_facts: true
+  become: true
+  become_user: '{{ oracle_user }}'
+
+  vars:
+    _oracle_backup_asm_metadata_rac_support: true
+
+  tasks:
+
+  - import_role:
+      name: oracle-gatherinfo-gi
+    tags:
+      - oracle-gatherinfo-gi
+
+  - include_role:
+      name: oracle-asm-metadata
+    when: not _oracle_backup_asm_metadata_rac_support|bool
+    tags:
+      - oracle-asm-metadata
+
+  - include_tasks: import_oracle-asm-metadata_with_delegate.yml
+    with_items:
+      - '{{ inventory_hostname }}'
+      - '{{ oracle_gi_info.rac_remote_nodes }}'
+    loop_control:
+      label: "[host: {{ _oracle_backup_asm_metadata_host_outer_item }}]"
+      loop_var: _oracle_backup_asm_metadata_host_outer_item
+    when: _oracle_backup_asm_metadata_rac_support|bool
+    tags:
+      - oracle-asm-metadata
+
